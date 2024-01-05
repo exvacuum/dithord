@@ -4,6 +4,10 @@
 
 This crate provides functionality which allows for monochromatic ordered dithering using a Bayer threshold matrix. This method of dithering is less accurate than others but is fast and visually appealing.
 
+Example of level 2 dithering using this crate:
+
+![image](https://github.com/exvacuum/dithord/assets/17646388/41e42b19-768a-4102-af38-615036628b93) ![image](https://github.com/exvacuum/dithord/assets/17646388/3018004c-a2f9-4508-8cd3-2248f8a2ff2f)
+
 Currently only monochromatic dithering is supported, but support for arbitrary palettes could be considered as a feature.
 
 ## Add to Project
