@@ -1,5 +1,7 @@
 # dithord: Bayer ordered dithering crate
 
+[![Crates.io Version](https://img.shields.io/crates/v/dithord)](https://crates.io/crates/dithord)
+
 This crate provides functionality which allows for monochromatic ordered dithering using a Bayer threshold matrix. This method of dithering is less accurate than others but is fast and visually appealing.
 
 Currently only monochromatic dithering is supported, but support for arbitrary palettes could be considered as a feature.
