@@ -19,12 +19,29 @@ impl OrderedDither for DynamicImage {
         // Convert image to luma float image for convenient comparison
         let mut copy = self.to_luma32f().clone();
         for (i, pixel) in copy.pixels_mut().enumerate() {
-            pixel.0[0] = if pixel.0[0] > 1.0 - threshold_map.sample(i % width, i / width) {
-                1.0
-            } else {
-                0.0
-            }
+            pixel.0[0] = test_pixel(&threshold_map, pixel.0[0], i % width, i / width) as u32 as f32;
         }
         copy.into()
+    }
+}
+
+/// Tests pixel luma against threshold map
+fn test_pixel(map: &ThresholdMap, luma: f32,  x: usize, y: usize) -> bool {
+    luma >= 1.0 - map.sample(x, y)
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+    use rstest::rstest;
+
+    #[rstest]
+    #[case(1.0, 0, 0, true)]
+    #[case(0.0, 0, 0, false)]
+    #[case(0.74, 1, 1, false)]
+    #[case(0.75, 1, 1, true)]
+    fn pixel_test(#[case] luma: f32, #[case] x: usize, #[case] y: usize, #[case] expected: bool) {
+        let map = ThresholdMap::level(3);
+        assert_eq!(test_pixel(&map, luma, x, y), expected)
     }
 }
