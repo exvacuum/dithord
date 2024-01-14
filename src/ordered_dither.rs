@@ -27,7 +27,7 @@ impl OrderedDither for DynamicImage {
 
 /// Tests pixel luma against threshold map
 fn test_pixel(map: &ThresholdMap, luma: f32,  x: usize, y: usize) -> bool {
-    luma >= 1.0 - map.sample(x, y)
+    luma > map.sample(x, y)
 }
 
 #[cfg(test)]
@@ -38,8 +38,8 @@ mod test {
     #[rstest]
     #[case(1.0, 0, 0, true)]
     #[case(0.0, 0, 0, false)]
-    #[case(0.74, 1, 1, false)]
-    #[case(0.75, 1, 1, true)]
+    #[case(0.25, 1, 1, false)]
+    #[case(0.26, 1, 1, true)]
     fn pixel_test(#[case] luma: f32, #[case] x: usize, #[case] y: usize, #[case] expected: bool) {
         let map = ThresholdMap::level(3);
         assert_eq!(test_pixel(&map, luma, x, y), expected)
