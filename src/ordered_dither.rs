@@ -1,4 +1,5 @@
 use image::DynamicImage;
+use rayon::prelude::*;
 
 use crate::ThresholdMap;
 
@@ -18,9 +19,9 @@ impl OrderedDither for DynamicImage {
         let width = self.width() as usize;
         // Convert image to luma float image for convenient comparison
         let mut copy = self.to_luma32f().clone();
-        for (i, pixel) in copy.pixels_mut().enumerate() {
+        copy.pixels_mut().enumerate().par_bridge().for_each(|(i, pixel)| {
             pixel.0[0] = test_pixel(&threshold_map, pixel.0[0], i % width, i / width) as u32 as f32;
-        }
+        });
         copy.into()
     }
 }
