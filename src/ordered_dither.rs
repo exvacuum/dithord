@@ -1,5 +1,6 @@
+use std::time::Instant;
+
 use image::DynamicImage;
-use rayon::prelude::*;
 
 use crate::ThresholdMap;
 
@@ -19,9 +20,11 @@ impl OrderedDither for DynamicImage {
         let width = self.width() as usize;
         // Convert image to luma float image for convenient comparison
         let mut copy = self.to_luma32f().clone();
-        copy.pixels_mut().enumerate().par_bridge().for_each(|(i, pixel)| {
+        let start = Instant::now();
+        copy.pixels_mut().enumerate().for_each(|(i, pixel)| {
             pixel.0[0] = test_pixel(&threshold_map, pixel.0[0], i % width, i / width) as u32 as f32;
         });
+        println!("Dithered in {}", start.elapsed().as_millis());
         copy.into()
     }
 }
