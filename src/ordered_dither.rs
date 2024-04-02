@@ -1,5 +1,3 @@
-use std::time::Instant;
-
 use image::DynamicImage;
 
 use crate::ThresholdMap;
@@ -12,17 +10,16 @@ pub trait OrderedDither {
     ///
     /// * `threshold_map` - Threshold map to use for dithering
     ///
-    fn ordered_dither(&self, threshold_map: ThresholdMap) -> Self;
+    fn ordered_dither(&self, threshold_map: &ThresholdMap) -> Self;
 }
 
 impl OrderedDither for DynamicImage {
-    fn ordered_dither(&self, threshold_map: ThresholdMap) -> Self {
+    fn ordered_dither(&self, threshold_map: &ThresholdMap) -> Self {
         let width = self.width() as usize;
         // Convert image to luma float image for convenient comparison
         let mut copy = self.to_luma32f().clone();
-        let start = Instant::now();
         copy.pixels_mut().enumerate().for_each(|(i, pixel)| {
-            pixel.0[0] = test_pixel(&threshold_map, pixel.0[0], i % width, i / width) as u32 as f32;
+            pixel.0[0] = test_pixel(threshold_map, pixel.0[0], i % width, i / width) as u32 as f32;
         });
         copy.into()
     }

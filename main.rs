@@ -48,7 +48,7 @@ pub fn main() {
     let threshold_map = ThresholdMap::level(args.level);
 
     // Apply dithering
-    image = image.ordered_dither(threshold_map);
+    image = image.ordered_dither(&threshold_map);
 
     // Save output image
     let image = image.to_rgba8();
