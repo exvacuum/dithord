@@ -33,3 +33,17 @@ fn main() {
     image = image.ordered_dither(map);
 }
 ```
+
+## Using standalone
+
+This crate provides a standalone binary for dithering images from the command line. It can be installed using cargo:
+
+```sh
+cargo install dithord --features=cli
+```
+
+The binary can then be used to dither images from the command line:
+
+```sh
+dithord input.png output.exr --level 2
+```

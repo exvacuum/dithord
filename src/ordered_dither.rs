@@ -24,7 +24,6 @@ impl OrderedDither for DynamicImage {
         copy.pixels_mut().enumerate().for_each(|(i, pixel)| {
             pixel.0[0] = test_pixel(&threshold_map, pixel.0[0], i % width, i / width) as u32 as f32;
         });
-        println!("Dithered in {}", start.elapsed().as_millis());
         copy.into()
     }
 }

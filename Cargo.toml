@@ -2,13 +2,23 @@
 name = "dithord"
 description = "Provides capabilities for monochromatic Bayer ordered dithering on images."
 license = "MIT OR Apache-2.0"
-version = "0.3.0"
+version = "0.4.0"
 edition = "2021"
 keywords = ["image-processing", "dither"]
 repository = "https://github.com/exvacuum/dithord"
 
 [dependencies]
+clap = { version = "4.5.1", features = ["derive"], optional = true }
 image = "0.24.7"
 
 [dev-dependencies]
 rstest = "0.18.2"
+
+[features]
+default = []
+cli = ["clap"]
+
+[[bin]]
+name = "dithord"
+path = "main.rs"
+required-features = ["cli"]
